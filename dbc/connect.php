@@ -3,9 +3,9 @@
 function connectToDatabase(){
 
 $servername="localhost";
-$username="promo_code_db_centric_db_user";
-$password="6vxNYtuz#jk/q&89";
-$dbname="promo_code_db_centric_db";
+$username="id15357813_promo_code_db_centric_db_user";
+$password="vK%3Y^tU)sQd/2|V";
+$dbname="id15357813_promo_code_db_centric_db";
 
 return mysqli_connect($servername,$username,$password,$dbname);
 }

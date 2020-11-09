@@ -21,54 +21,62 @@ else if ($text == "1") {
    
     $response = "CON Enter Promo Code\n";
 }
-else if(preg_match_all("/1\*([0-9]+)/", $text) > 0){
+else if(preg_match_all("/1\*([0-9]+)/", $text) > 0 && preg_match_all("/([^0-9\*\#]+)/", $text) == 0){
     
          /**   Currently in menu 1, this will be displayed when the user press 1 on the menu list of the  display  **/
          
      
-         if(preg_match_all("/([0-9])+\*([0-9]+)\*([0-9]+)/", $text) == 1 && preg_match_all("/([a-z]+)/",$text) == 0 && preg_match_all("/([A-Z]+)/",$text) == 0 && preg_match_all("/([\?\.\,\!\~\`\%\'$'\_\-\"\'\:\;\{\}\|\&\^\@\>\<]+)/",$text) == 0){
+         if(preg_match_all("/([0-9])+\*([0-9]+)\*([0-9]+)/", $text) == 1){
        
              
-             //regex for determining on phone number input
-             $phone = preg_replace("/([0-9])+\*([0-9]+)\*/", "", $text);
-             saveWinnersPhone($phone);
-             $response  = "END Thank you for Participating we will get in touch very soon\n";
-   
-       
+                 //regex for determining on phone number input
+                   $phone = preg_replace("/([0-9])+\*([0-9]+)\*/", "", $text);
+             
+                  saveWinnersPhone($phone);
+                  $response  = "END Thank you for Participating we will get in touch very soon\n";
          }
-         else if(preg_match_all("/([0-9]+)\*([0-9]+)/", $text) == 1 && preg_match_all("/([a-z]+)/",$text) == 0 && preg_match_all("/([A-Z]+)/",$text) == 0 &&preg_match_all("/([\?\.\,\!\~\`\%\'$'\_\-\"\'\:\;\{\}\|\&\^\@\>\<]+)/",$text) == 0){
+         else if(preg_match_all("/([0-9]+)\*([0-9]+)/", $text) == 1 && preg_match_all("/([^0-9\*\#]+)/", $text) == 0){
            
              //regex for determining on promo code input
-             $newText = str_replace("1*", "", $text);
+             $promoCode = str_replace("1*","", $text);
        
-         if(verifyPromoCode($newText)){
-                
-             if(isPromoCodeUsed($newText)){
+             if(preg_match_all("/([^0-9]+)/",$promoCode) != 0){
                  
-                   $response   = "END The code has already been used\n";
-             }
-             else{
+                 $response   = "END You have Entered an Invalid Promo Code\n";
+              }
+               else{
+                 
+                 if(verifyPromoCode($promoCode)){
+                
+                    if(isPromoCodeUsed($promoCode)){
+                 
+                      $response   = "END The code has already been used\n";
+                  }
+                      else{
           
-                   $response   =  "CON Congratulations you have won\n";
-                   $response  .=  "Enter your phonenumber to redeem your price\n";
-                   updateCodeStatus($newText);
+                        $response   =  "CON Congratulations you have won\n";
+                        $response  .=  "Enter your phonenumber to redeem your price\n";
+                        updateCodeStatus($promoCode);
                    
              }
-          }
+          
+         }
+         
+             
         
           else{
               
-              if(isPromoCodeExist($newText)){
+              if(isPromoCodeExist($promoCode)){
                   
               
-                    if(isPromoCodeUsed($newText)){
+                    if(isPromoCodeUsed($promoCode)){
                  
                     $response   = "END The promo code has already been used\n";
                 }
                 else{
             
                     $response  = "END Thank you for Participating we are sorry but your promo code is not winning, please try again\n";
-                     updateCodeStatus($newText);
+                     updateCodeStatus($promoCode);
         
                     }
                   
@@ -78,7 +86,7 @@ else if(preg_match_all("/1\*([0-9]+)/", $text) > 0){
                     $response   = "END The code you entered does not exist\n";
               }
               
-              
+          } 
               
        }
      
@@ -93,7 +101,7 @@ else{
      
  }
  
- /** menu one ends here so be careful and mind the boundary **/
+ /** menu 1 ends here so be careful and mind the boundary **/
  
  
    else{
