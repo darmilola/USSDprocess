@@ -27,13 +27,12 @@ else if(preg_match_all("/1\*([0-9]+)/", $text) > 0 && preg_match_all("/([^0-9\*\
          
      
          if(preg_match_all("/([0-9])+\*([0-9]+)\*([0-9]+)/", $text) == 1){
-       
-             
-                 //regex for determining on phone number input
+                    
+                   //regex for determining on phone number input
                    $phone = preg_replace("/([0-9])+\*([0-9]+)\*/", "", $text);
              
-                  saveWinnersPhone($phone);
-                  $response  = "END Thank you for Participating we will get in touch very soon\n";
+                   saveWinnersPhone($phone);
+                   $response  = "END Thank you for Participating we will get in touch very soon\n";
          }
          else if(preg_match_all("/([0-9]+)\*([0-9]+)/", $text) == 1 && preg_match_all("/([^0-9\*\#]+)/", $text) == 0){
            
